@@ -1,4 +1,4 @@
-import { ApiSession, Contract } from '@buidlerlabs/hedera-strato-js';
+import { ApiSession, Contract } from './hedera-strato.js';
 
 function log(what) {
   document.write(`${what}</br>`);

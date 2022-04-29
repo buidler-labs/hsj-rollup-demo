@@ -16,9 +16,9 @@ function getPathOf(file) {
 export default async function getConfig() {
   return {
     context: 'window',
-    input: './app.mjs',
+    input: './index.mjs',
     output: [ {
-      file: getPathOf('./dist/app-bundle.js'),
+      file: getPathOf('./dist/hedera-strato.js'),
       format: 'esm',
       sourcemap: true,
     } ],
