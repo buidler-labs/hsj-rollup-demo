@@ -8,12 +8,13 @@
     "start": "light-server --config .lightrc"
   },
   "keywords": [],
-  "author": "BuiDler Labs Developers <devs@buidlerlabs.com>",
+  "author": "Buidler Labs Developers <devs@buidlerlabs.com>",
   "license": "MIT",
   "dependencies": {
-    "@buidlerlabs/hedera-strato-js": "file:../hedera-strato-js/buidlerlabs-hedera-strato-js-0.7.3.tgz"
+    "@buidlerlabs/hedera-strato-js": "^0.7.4"
   },
   "devDependencies": {
+    "@buidlerlabs/rollup-plugin-hedera-strato": "^0.7.4",
     "@rollup/plugin-commonjs": "^21.0.2",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.1.3",

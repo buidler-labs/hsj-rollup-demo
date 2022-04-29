@@ -6,7 +6,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import dotenv from 'dotenv';
 import nodePolyfills from 'rollup-plugin-node-polyfills';
 
-import strato from '@buidlerlabs/hedera-strato-js/rollup-plugin';
+import strato from '@buidlerlabs/rollup-plugin-hedera-strato';
 dotenv.config({ path: getPathOf('./.env') });
 
 function getPathOf(file) {
