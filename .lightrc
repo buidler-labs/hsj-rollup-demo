@@ -1,6 +1,0 @@
-{
- "port": 3069,
- "serve": "dist",
- "http2": false,
- "open": true
-}

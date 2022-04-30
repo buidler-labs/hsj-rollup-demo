@@ -1,18 +1,45 @@
-import { ApiSession, Contract } from './hedera-strato.js';
+import { 
+  ApiSession, 
+  Json,
+  HashPackWallet 
+} from './hedera-strato-hashpack.js';
 
-function log(what) {
-  document.write(`${what}</br>`);
+const hpAppMetaData = {
+  description: "Hedera Strato HashPack Demo",
+  icon: "https://www.hashpack.app/img/logo.svg",
+  name: "hStratoHashPackDemo",
+};
+
+async function runWalletedApp() {
+  const log = (what) => document.write(`${what}</br>`);
+  const { session } = await ApiSession.default({ wallet: { type: 'Browser' } });
+
+  session.log.on("debug", log);
+  session.log.on("error", log);
+  session.log.on("info", log);
+  session.log.on("warn", log);
+
+  const liveJson = await session.upload(new Json({ theAnswer: 42 }));
+
+  document.write(`</br><b>Wallet account id used: ${session.wallet.account.id}</b>`);
+  document.write(`</br><b>Json is stored at ${liveJson.id}</b>`);
+  document.write(`</br><b>The answer is: ${liveJson.theAnswer}</b>`);
 }
 
-const { session } = await ApiSession.default();
+async function connectToHashPack() {
+  let wallet = await HashPackWallet.getConnection(false);
 
-session.log.on("debug", log);
-session.log.on("error", log);
-session.log.on("info", log);
-session.log.on("warn", log);
+  if (!wallet) {
+    // No wallet-session could be recovered. Start a fresh one
+    wallet = await HashPackWallet.newConnection({
+      appMetadata: hpAppMetaData,
+      debug: false,
+      networkName: 'testnet',
+    });
+  }
+  window["hedera"] = wallet;
+}
 
-const helloContract = await Contract.newFrom({ path: './hello_strato.sol' });
-const liveContract = await session.upload(helloContract);
-const greet = await liveContract.greet();
-
-document.write(`</br><b>${greet}</b>`);
+// dApp logic flow
+await connectToHashPack();
+await runWalletedApp();

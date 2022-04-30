@@ -1,5 +1,4 @@
-import { join as pathJoin } from 'path';
-
+import babel from "@rollup/plugin-babel";
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import resolve from '@rollup/plugin-node-resolve';
@@ -7,18 +6,14 @@ import dotenv from 'dotenv';
 import nodePolyfills from 'rollup-plugin-node-polyfills';
 
 import strato from '@buidlerlabs/rollup-plugin-hedera-strato';
-dotenv.config({ path: getPathOf('./.env') });
-
-function getPathOf(file) {
-  return pathJoin(__dirname, file);
-}
+dotenv.config({ path: './.env' });
 
 export default async function getConfig() {
   return {
     context: 'window',
-    input: './index.mjs',
+    input: './src/index.ts',
     output: [ {
-      file: getPathOf('./dist/hedera-strato.js'),
+      file: './dist/hedera-strato-hashpack.js',
       format: 'esm',
       sourcemap: true,
     } ],
@@ -28,10 +23,9 @@ export default async function getConfig() {
         sourceMap: true, 
       }),
       resolve({
-        extensions: [ '.js' ],
+        extensions: [ '.js', '.ts' ],
         mainFields: [ "browser", "module", "main" ],
         preferBuiltins: false,
-        rootDir: getPathOf('.'),
       }),
       commonjs({
         esmExternals: true,
@@ -39,6 +33,15 @@ export default async function getConfig() {
       }),
       nodePolyfills({
         sourceMap: true,
+      }),
+      babel({
+        babelHelpers: "runtime",
+        extensions: [".ts"],
+        plugins: [["@babel/plugin-transform-runtime", { regenerator: true }]],
+        presets: [
+          ["@babel/env", { targets: "> 0.25%, not dead" }],
+          ["@babel/typescript"],
+        ],
       }),
       json(),
     ],
