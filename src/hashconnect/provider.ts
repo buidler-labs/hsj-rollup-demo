@@ -17,14 +17,13 @@ import Executable from "@hashgraph/sdk/lib/Executable";
 
 import { HashConnectSender } from "./sender";
 
-export class HashConnectProvider extends Provider {
+export class HashConnectProvider {
   private readonly client: Client;
 
   public constructor(
     private readonly sender: HashConnectSender,
     networkName: string
   ) {
-    super();
     this.client = Client.forName(networkName);
   }
 
