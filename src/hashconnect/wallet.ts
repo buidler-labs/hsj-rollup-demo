@@ -177,7 +177,7 @@ export class HashPackWallet extends Wallet {
   private readonly signer: HashPackSigner;
 
   private constructor(opts: HashPackConstructorArgs) {
-    super();
+    super(opts.account.id, opts.account, null);
     this.client = Client.forName(opts.networkMaturity);
     this.account = opts.account;
     this.provider = new HashConnectProvider(
